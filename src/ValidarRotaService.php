@@ -10,7 +10,7 @@ class ValidarRotaService
     //TODO vc deve implementar esse método
     public function isValida(array $siglasEstados)
     {
-        $estados = [
+        $estadosDivisas = [
             'AC'=>['AC' => 1, 'AM' => 1, 'RO' => 1],
             'AL'=>['AL' => 1, 'SE' => 1, 'PE' => 1, 'BA' => 1],
             'AP'=> ['AP' => 1, 'PA' => 1],
@@ -44,16 +44,14 @@ class ValidarRotaService
         }
 
         $count = 1;
-        $totalSiglas = count($siglasEstados);
-        $sigla = 0;
+        $totalSiglas = count($siglasEstados); // conta quantas siglas estão sendo enviadas
+        $siglaInicial = 0; //pega a primeira posição do array
 
         while ($count < $totalSiglas) {
-            try {
-                if ($estados[$siglasEstados[$sigla]][$siglasEstados[$sigla + 1]] == 1) {
-                    $sigla++;
-                }
-            } catch (Exception $e) {
+            if (!isset($estadosDivisas[$siglasEstados[$siglaInicial]][$siglasEstados[$siglaInicial + 1]])) {
                 return false;
+            } else {
+                $siglaInicial++;
             }
 
             $count++;

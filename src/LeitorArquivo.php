@@ -10,22 +10,21 @@ class LeitorArquivo
 
     public function __construct(string $caminhoArquivo)
     {
-        if(!file_exists($caminhoArquivo)) {
+        if (!file_exists($caminhoArquivo)) {
             throw new \InvalidArgumentException("O caminho do arquivo é inválido!");
-        } else {
-            $this->caminhoArquivo = $caminhoArquivo;
         }
 
+        $this->caminhoArquivo = $caminhoArquivo;
     }
 
     public function getColunas(): array
     {
         $linhas = file($this->caminhoArquivo);
         foreach ($linhas as $linha) {
-            $coluna = explode('  ', trim($linha));
+            $colunas = preg_split('/\t+/', trim($linha));
             break;
         }
-        return $coluna;
+        return $colunas;
         
     }
 
@@ -38,7 +37,7 @@ class LeitorArquivo
         }
         $linhas = file($this->caminhoArquivo);
         array_shift($linhas);
-        $linhaProcurada = explode("  ", $linhas[$numeroColuna]);
+        $linhaProcurada = preg_split('/\t+/', $linhas[$numeroColuna]);
 
         try {
             $linhaEncontrada = $linhaProcurada[$numeroLinha];
